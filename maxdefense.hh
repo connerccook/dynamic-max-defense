@@ -257,8 +257,18 @@ std::unique_ptr<ArmorVector> filter_armor_vector
 	int total_size
 )
 {
-	// TODO: implement this function, then delete this comment
-	return nullptr;
+	std::unique_ptr<ArmorVector> filtered = std::make_unique<ArmorVector>();
+
+	for(auto armor : source){
+		if ( armor->defense() >= min_defense && armor->defense() <= max_defense){
+			filtered->push_back(armor);
+			if (filtered->size() >= total_size){
+				break;
+			}
+		}
+	}
+
+	return filtered;
 }
 
 
@@ -289,8 +299,34 @@ std::unique_ptr<ArmorVector> exhaustive_max_defense
 	double total_cost
 )
 {
-	// TODO: implement this function, then delete this comment
-	return nullptr;
+	const int n = armors.size();
+	assert(n < 64);
+	int cost=0;
+	double defense=0.0;
+	double best_defense = 0.0;
+	
+	std::unique_ptr<ArmorVector> bestVector(new ArmorVector);
+	std::unique_ptr<ArmorVector> candidates(new ArmorVector);
+
+	bool flag = false;
+
+	for (uint64_t bits = 0; bits < pow(2,n); bits++){
+		candidates->clear();
+		for(u_int64_t j = 0; j < n; j++){
+			if(((bits >> j) & 1) == 1){
+				candidates->push_back(armors[j]);
+			}
+		}
+		sum_armor_vector(*candidates, cost, defense);
+		if(cost <= total_cost){
+			if (!flag || defense > best_defense) {
+			best_defense = defense;
+			*bestVector = *candidates;
+			flag = true;
+			}
+		}
+	}
+	return bestVector;
 }
 
 
