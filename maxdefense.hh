@@ -283,8 +283,53 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 	int total_cost
 )
 {
+	//def knapsack(W, X, n, V)
+	// W = size of knap sack = total cost
+	// n = number of items = armors.size()
+	// X = list of n weights = cost
+	// V = list of n values = defense (you get cost and defense by using sum_armor_vectors)
 	// TODO: implement this function, then delete this comment
-	return nullptr;
+	const int n = armors.size();
+	const int W = total_cost;
+	int i,j;
+	int T[n+1][W+1];
+	//std::vector<std::vector<int>> T(n+1, std::vector<int> (W+1, 0));
+	std::unique_ptr<ArmorVector> best = std::make_unique<ArmorVector>();
+	//std::unique_ptr<std::unique_ptr<ArmorVector[]>[]> best;
+	ArmorVector b[n+1][W+1];
+	int X[n], V[n];
+
+	for(auto armor : armors){
+		X[n] = armor->cost();
+		V[n] = armor->defense();
+	}
+
+	for(j = 0; j <= W; j++){
+		b[0][j].push_back(0);
+	}
+	for(i = 0; i <= n; i++){
+		b[i][0].push_back(0);
+	}
+	// for(j = 0; j <= W; j++){
+	// 	T[0][j] = 0;
+	// }
+	
+	// for(i = 0; i <= n; i++){
+	// 	T[i][0] = 0;
+	// }
+
+	// for(i=0; i<=n; i++){
+	// 	for(j = 0; j <= W; j++){
+	// 		if(X[i-1] <= j){
+	// 			T[i][j]=std::max(T[i-1][j],V[i-1]+T[i-1][j-X[i-1]]);
+	// 		} else {
+	// 			T[i][j]=T[i-1][j];
+	// 		}
+	// 	}
+	// }
+	best->push_back(b[n][W]);
+	return best;
+	// return T[n][W];
 }
 
 
