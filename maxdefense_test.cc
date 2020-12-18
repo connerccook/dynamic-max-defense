@@ -96,8 +96,8 @@ int main()
 			soln_small = dynamic_max_defense(*filtered_armors, 500),
 			soln_large = dynamic_max_defense(*filtered_armors, 5000);
 			
-			//print_armor_vector(*soln_small);
-			//print_armor_vector(*soln_large);
+			// print_armor_vector(*soln_small);
+			// print_armor_vector(*soln_large);
 			
 			TEST_TRUE("non-null", soln_small);
 			TEST_TRUE("non-null", soln_large);

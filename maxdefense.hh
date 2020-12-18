@@ -20,6 +20,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <limits>
 
 
 // One armor item available for purchase.
@@ -293,6 +294,8 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 	const int W = total_cost;
 	
 	std::unique_ptr<ArmorVector> best = std::make_unique<ArmorVector>();
+	ArmorVector Armor;
+	
 	std::vector<std::vector<double>> T;
 	std::vector<double> X;
 	std::vector<double> V;
@@ -308,21 +311,71 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 		X.push_back(armor->cost());
 		V.push_back(armor->defense());
 	}
+	for(i = 1; i <= n; i++){
+		for (j = 1; j <= W; j++){
+			T[i][j] = std::numeric_limits<double>::min(); 
+		}
+	}
 
-	for(i = 0; i <= n; i++){
+
+	for(i = 1; i <= n; i++){
 		for(j = 0; j <= W; j++){
-			if(i == 0 || j == 0){
-				//T[i][j] = 0.0;
-			} else if(X[i-1] <= j){
+			if(X[i-1] <= j){
 				T[i][j]=std::max(T[i-1][j],V[i-1]+T[i-1][j-X[i-1]]);
 			} else {
 				T[i][j]=T[i-1][j];
 			}
+			//std::cout << T[i][j] << " ";
 		}
+		//std::cout << std::endl;
 	}
-	std::cout << T[n][W] << std::endl;
-	return nullptr;
+	Armor.push_back(armors[n]);
 	
+	
+	
+	std::cout << "\nMax Value: " <<  T[n][W] << std::endl;
+
+	//best.push_back()
+
+	// std::vector<std::vector<double>> T(n, std::vector<double>(W + 1));
+	// std::vector<double> X;
+	// std::vector<double> V;
+	// size_t i,j;
+
+	// for(auto armor : armors){
+	// 	X.push_back(armor->cost());
+	// 	V.push_back(armor->defense());
+	// }
+
+	// for (i = 0; i < n; i++) {
+    //   T[i][0] = 0.0;
+    // }
+
+    // // if we have only one weight, we will take it if it is not more than the capacity
+    // for (j = 0; j <= W; j++) {
+    //   if (X[0] <=j) {
+    //     T[0][j] = V[0];
+    //   }
+    // }
+
+	// // process all sub-arrays for all the capacities
+    // for (i = 1; i < n; i++) {
+    //   for (j = 1; j <= W; j++) {
+    //     double profit1 = 0.0, profit2 = 0.0;
+    //     // include the item, if it is not more than the capacity
+    //     if (X[i] <= j) {
+    //       profit1 = V[i] + T[i - 1][j - X[i]];
+    //     }
+    //     // exclude the item
+    //     profit2 = T[i - 1][j];
+    //     // take maximum
+    //     T[i][j] = std::max(profit1, profit2);
+    //   }
+    // }
+
+	// std::cout << T[n-1][W] << std::endl;
+	
+	return nullptr;	
 }
 
 
