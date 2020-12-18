@@ -329,7 +329,7 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 		}
 		//std::cout << std::endl;
 	}
-	Armor.push_back(armors[n]);
+	//Armor.push_back(armors[n]);
 	
 	
 	
