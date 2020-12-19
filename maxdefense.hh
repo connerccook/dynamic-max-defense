@@ -290,17 +290,12 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 	std::unique_ptr<ArmorVector> best = std::make_unique<ArmorVector>();
 	
 	std::vector<std::vector<double>> T;
-	std::vector<std::vector<double>> cache;
-	std::vector<double> X;
-	std::vector<double> V;
 	size_t i,j;
 
 	for(i = 0; i <= n; i++){
 		T.push_back(std::vector<double>());
-		cache.push_back(std::vector<double>());
 		for(j = 0; j <= W; j++){
 			T[i].push_back(0.0);
-			cache[i].push_back(0.0);
 		}
 	}
 	for(i = 1; i <= n; i++){
