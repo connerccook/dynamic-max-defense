@@ -309,23 +309,17 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 			cache[i].push_back(0.0);
 		}
 	}
-
-	for(auto armor : armors){
-		X.push_back(armor->cost());
-		V.push_back(armor->defense());
-	}
 	for(i = 1; i <= n; i++){
 		for (j = 1; j <= W; j++){
 			T[i][j] = std::numeric_limits<double>::min(); 
 		}
 	}
-
 	for(i = 1; i <= n; i++){
 		std::shared_ptr<ArmorItem> item = armors[i-1];
-		for(j = 0; j <= W; j++){
-			if(X[i-1] <= j){
-				T[i][j]=std::max(T[i-1][j],V[i-1]+T[i-1][j-X[i-1]]);
-				if(T[i-1][j] < V[i-1]+T[i-1][j-X[i-1]]){
+		for(j = 0; j <= W; j+=1){
+			if(item->cost() <= j){
+				T[i][j]=std::max(T[i-1][j],item->defense()+T[i-1][j-item->cost()]);
+				if(T[i-1][j] < item->defense()+T[i-1][j-item->cost()]){
 					best->push_back(item);
 				}
 			} else {
@@ -333,7 +327,6 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 			}
 		}
 	}
-
 	return best;
 }
 
