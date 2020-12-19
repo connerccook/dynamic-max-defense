@@ -284,12 +284,6 @@ std::unique_ptr<ArmorVector> dynamic_max_defense
 	int total_cost
 )
 {
-	//def knapsack(W, X, n, V)
-	// W = size of knap sack = total cost
-	// n = number of items = armors.size()
-	// X = list of n weights = cost
-	// V = list of n values = defense (you get cost and defense by using sum_armor_vectors)
-	
 	const int n = armors.size();
 	const int W = total_cost;
 	
